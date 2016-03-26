@@ -14,7 +14,7 @@ var Event = require('../models/event');
 // middleware to use for all requests
 router.use(function(req, res, next) {
   // do logging
-  console.log('Something is happening.');
+  console.log('Something is happening!!!');
   next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -29,10 +29,35 @@ router.route('/events')
   // create an event (accessed at POST http://localhost:3000/api/events)
   .post(function(req, res) {
 
-    var event = new Event();      // create a new instance of the Event model
-    event.name = req.body.name;  // set the event's name (comes from the request)
+    var event = new Event();
+    if (req.body.name != null)
+      event.name = req.body.name;
 
-    // save the event and check for errors
+    if (req.body.description != null)
+      event.description = req.body.description;
+
+    if (req.body.date != null)
+      event.date = req.body.date;
+
+    if (req.body.interested != null)
+      event.interested = req.body.interested;
+
+    if (req.body.attending != null)
+      event.attending = req.body.attending;
+
+    if (req.body.host != null)
+      event.host = req.body.host;
+
+    if (req.body.fb_event_id != null)
+      event.fb_event_id = req.fb_event_id
+
+    if (req.body.location != null)
+      event.location = req.body.location;
+
+    if (req.body.photo_url != null)
+      event.photo_url = req.body.photo_url;
+
+
     event.save(function(err) {
       if (err)
         res.send(err);
@@ -81,7 +106,26 @@ router.route('/events/:event_id')
       if (req.body.description != null)
         event.description = req.body.description;
 
+      if (req.body.date != null)
+        event.date = req.body.date;
 
+      if (req.body.interested != null)
+        event.interested = req.body.interested;
+
+      if (req.body.attending != null)
+        event.attending = req.body.attending;
+
+      if (req.body.host != null)
+        event.host = req.body.host;
+
+      if (req.body.fb_event_id != null)
+        event.fb_event_id = req.fb_event_id
+
+      if (req.body.location != null)
+        event.location = req.body.location;
+
+      if (req.body.photo_url != null)
+        event.photo_url = req.body.photo_url;
 
       // save the event
       event.save(function(err) {
