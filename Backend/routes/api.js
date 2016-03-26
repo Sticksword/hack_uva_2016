@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
-// on routes that end in /bears
+// on routes that end in /events
 // ----------------------------------------------------
 router.route('/events')
 
@@ -74,7 +74,14 @@ router.route('/events/:event_id')
       if (err)
         res.send(err);
 
-      event.name = req.body.name;  // update the event info
+      // update the event info
+      if (req.body.name != null)
+        event.name = req.body.name;
+
+      if (req.body.description != null)
+        event.description = req.body.description;
+
+
 
       // save the event
       event.save(function(err) {
@@ -84,6 +91,18 @@ router.route('/events/:event_id')
         res.json({ message: 'Event updated!' });
       });
 
+    });
+  })
+
+  // delete the event with this id (accessed at DELETE http://localhost:3000/api/events/:event_id)
+  .delete(function(req, res) {
+    Event.remove({
+      _id: req.params.event_id
+    }, function(err, event) {
+      if (err)
+        res.send(err);
+
+      res.json({ message: 'Successfully deleted' });
     });
   });
 
