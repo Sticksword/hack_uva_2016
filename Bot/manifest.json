@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+
+  "name": "Event_scrapper",
+  "description": "This extension will display all items it's provided.",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["http://www.facebook.com/events/*"],
+      "css": ["bootstrap.css", "bootstrap.min.css", 
+      "bootstrap-theme.css", "bootstrap-theme.min.css", "addButton.css"],
+      "js": ["jquery-2.1.4.js", "addButton.js"]
+    }
+  ],
+  "browser_action": {
+   "default_icon": "icon.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+  ]
+}
