@@ -85,6 +85,18 @@ router.route('/events/:event_id')
       });
 
     });
+  })
+
+  // delete the event with this id (accessed at DELETE http://localhost:3000/api/events/:event_id)
+  .delete(function(req, res) {
+    Event.remove({
+      _id: req.params.event_id
+    }, function(err, event) {
+      if (err)
+        res.send(err);
+
+      res.json({ message: 'Successfully deleted' });
+    });
   });
 
 
