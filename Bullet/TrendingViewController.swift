@@ -8,10 +8,11 @@
 
 import UIKit
 
-class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    var popupDisplayed = false
+    var currentOverlay : PopupView!
     var allEvents = []
     
     override func viewDidLoad()
@@ -134,6 +135,43 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     internal func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat
     {
         return 5
+    }
+    
+    internal func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        guard let event = allEvents[indexPath.item] as? NSDictionary,
+        let title = event["name"] as? String,
+        let url = event["photo_url"] as? String,
+        let date = event["date"] as? String,
+        let location = event["location"] as? String
+        else {
+            print("fail")
+            return
+        }
+        print(title)
+        print(url)
+        if (!popupDisplayed) {
+            let overlayView = PopupView()
+            overlayView.frame = CGRectMake(18,15, 340, 600)
+            overlayView.backgroundColor = UIColor.whiteColor()
+            overlayView.alpha = CGFloat(0.9)
+            if let label = overlayView.titleLabel {
+                label.text = title
+            }
+            if let dateText = overlayView.dateLabel {
+                dateText.text = date
+            }
+            if let locationText = overlayView.locationLabel {
+                locationText.text = location
+            }
+            self.view.addSubview(overlayView)
+            currentOverlay = overlayView
+            popupDisplayed = true
+        } else {
+            if (currentOverlay != nil) {
+                currentOverlay.removeFromSuperview()
+                popupDisplayed = false
+            }
+        }
     }
 }
 
