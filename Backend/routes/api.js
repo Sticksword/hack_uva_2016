@@ -78,6 +78,7 @@ router.route('/events')
       if (err) {
         res.send(err);
       } else {
+        // console.log(events);
         res.json(events);
       }
     });
