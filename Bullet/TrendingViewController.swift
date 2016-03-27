@@ -104,6 +104,10 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
             }
         }
         
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(CollectionViewCell().showHeart(_:)))
+//        tapGesture.numberOfTapsRequired = 2
+//        cell.addGestureRecognizer(tapGesture)
+        
         return cell
     }
     

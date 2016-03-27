@@ -78,6 +78,7 @@ router.route('/events')
       if (err) {
         res.send(err);
       } else {
+        // console.log(events);
         res.json(events);
       }
     });
@@ -87,7 +88,7 @@ router.route('/events')
 // ----------------------------------------------------
 router.route('/events/:event_id')
 
-  // get the bear with that id (accessed at GET http://localhost:3000/api/events/:event_id)
+  // get the event with that id (accessed at GET http://localhost:3000/api/events/:event_id)
   .get(function(req, res) {
     Event.findById(req.params.event_id, function(err, event) {
       if (err) {
@@ -163,6 +164,16 @@ router.route('/events/:event_id')
     });
   });
 
+router.route('/nuke')
+  .get(function(req, res) {
+    Event.remove({}, function(err, event) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json({message: 'Successfully nuked'})
+      }
+    });
+  });
 
 
 module.exports = router;

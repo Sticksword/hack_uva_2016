@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var locationTextField: UITextField!
@@ -16,6 +16,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var submitView: UIView!
+    @IBOutlet weak var categoryPickerView: UIPickerView!
+    
+    let categories = ["Food", "Music", "Sports", "Arts", "Cultural", "Educational"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,7 +106,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             descriptionText = self.textView.text
         }
         
-        let object = ["name":self.titleTextField.text!, "location":self.locationTextField.text!, "description":descriptionText, "date":date, "photo_url":url]
+        let object = ["name":self.titleTextField.text!, "location":self.locationTextField.text!, "description":descriptionText, "date":date, "photo_url":url, "category":self.categoryPickerView.selectedRowInComponent(0)]
                 
         let request = NSMutableURLRequest(URL: NSURL(string: "http://ec2-54-164-108-53.compute-1.amazonaws.com:3000/api/events")!)
         request.HTTPMethod = "POST"
@@ -153,5 +156,18 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             textView.textColor = UIColor.lightGrayColor()
         }
     }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+         return categories.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categories[row]
+    }
+
 }
 

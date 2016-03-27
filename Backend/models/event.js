@@ -15,6 +15,8 @@ var EventSchema = new Schema({
   attending: {type: Number, default: 0 },
   fb_event_id: {type: String, default: null },
   location: {type: String, default: null },
+  lat: {type: String, default: "78.5080" },
+  lon: {type: String, default: "38.0336" },
   photo_url: {type: String, default: null }
 
 });
