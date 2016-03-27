@@ -92,6 +92,7 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
             return cell
         }
         
+        print(url)
         if let label = cell.titleLabel {
             label.text = title
         }
@@ -186,7 +187,7 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     internal func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         guard let event = allEvents[indexPath.item] as? NSDictionary,
             let title = event["name"] as? String,
-            let date = event["date"] as? String,
+            let rawDate = event["date"] as? String,
             let location = event["location"] as? String,
             let aDescription = event["description"] as? String
         else {
@@ -195,14 +196,15 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
         }
         if (!popupDisplayed) {
             self.detailsView.alpha = CGFloat(1.0)
-            self.collectionView.alpha = CGFloat(0.9)
             
             if let label = self.detailsView.titleLabel {
                 label.text = title
                 print(title)
             }
             if let dateText = self.detailsView.date {
-                dateText.text = date
+                var dateArray = rawDate.componentsSeparatedByString("T")
+                dateArray[1] = (dateArray[1] as NSString).substringToIndex(5)
+                dateText.text = dateArray[0] + "  @  " + dateArray[1]
             }
             if let locationText = self.detailsView.location {
                 locationText.text = location
