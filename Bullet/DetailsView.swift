@@ -8,9 +8,12 @@
 
 import UIKit
 
-class PopupView : UIView {
+class DetailsView : UIView {
+    
     @IBOutlet weak var titleLabel : UILabel!
+    @IBOutlet weak var location: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var eventDescription: UITextView!
     @IBOutlet weak var image : UIImageView!
-    var locationLabel : UITextView!
-    var dateLabel : UITextView!
+   
 }

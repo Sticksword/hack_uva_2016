@@ -11,8 +11,8 @@ import UIKit
 class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, CollectionViewCellDelegate, UICollectionViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var detailsView: DetailsView!
     var popupDisplayed = false
-    var currentOverlay : PopupView!
     var allEvents = []
     var toggleState = 1
     
@@ -186,37 +186,39 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     internal func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         guard let event = allEvents[indexPath.item] as? NSDictionary,
             let title = event["name"] as? String,
-            let url = event["photo_url"] as? String,
             let date = event["date"] as? String,
-            let location = event["location"] as? String
+            let location = event["location"] as? String,
+            let aDescription = event["description"] as? String
         else {
             print("fail")
             return
         }
-        print(title)
-        print(url)
         if (!popupDisplayed) {
-            let overlayView = PopupView()
-            overlayView.frame = CGRectMake(18,15, 340, 600)
-            overlayView.backgroundColor = UIColor.whiteColor()
-            overlayView.alpha = CGFloat(0.9)
-            if let label = overlayView.titleLabel {
+            self.detailsView.alpha = CGFloat(1.0)
+            self.collectionView.alpha = CGFloat(0.9)
+            
+            if let label = self.detailsView.titleLabel {
                 label.text = title
+                print(title)
             }
-            if let dateText = overlayView.dateLabel {
+            if let dateText = self.detailsView.date {
                 dateText.text = date
             }
-            if let locationText = overlayView.locationLabel {
+            if let locationText = self.detailsView.location {
                 locationText.text = location
             }
-            self.view.addSubview(overlayView)
-            currentOverlay = overlayView
+            
+            if let descriptionText = self.detailsView.eventDescription {
+                descriptionText.text = aDescription
+            }
+            
+            self.detailsView.image.image = (self.collectionView.cellForItemAtIndexPath(indexPath) as! CollectionViewCell).imageView.image!
+            
             popupDisplayed = true
         } else {
-            if (currentOverlay != nil) {
-                currentOverlay.removeFromSuperview()
-                popupDisplayed = false
-            }
+            self.collectionView.alpha = 1.0
+            self.detailsView.alpha = 0.0
+            popupDisplayed = false
         }
     }
 }
