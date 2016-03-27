@@ -30,6 +30,7 @@ router.route('/events')
   .post(function(req, res) {
 
     var event = new Event();
+    console.log(req.body);
     if (req.body.name != null)
       event.name = req.body.name;
 
