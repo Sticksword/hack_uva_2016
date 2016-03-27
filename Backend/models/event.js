@@ -9,6 +9,7 @@ var EventSchema = new Schema({
   name: {type: String, default: "generic event name" },
   description: {type: String, default: "generic event description" },
   date: {type: Date, default: Date.now },
+  category: {type: String, default: null },
   host: {type: String, default: null },
   interested: {type: Number, default: 0 },
   attending: {type: Number, default: 0 },
