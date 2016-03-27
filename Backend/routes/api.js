@@ -11,6 +11,11 @@ mongoose.connect(url);
 
 var Event = require('../models/event');
 
+//var http = require('http');
+var https = require("https");
+var GoogleAPIKey = 'AIzaSyC6c1RcklJc8BHTM9s8or0ZLXOejHbh5Hg';
+var GoogleGeocodingURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+
 // middleware to use for all requests
 router.use(function(req, res, next) {
   // do logging
@@ -55,8 +60,42 @@ router.route('/events')
     if (req.body.fb_event_id != null)
       event.fb_event_id = req.fb_event_id
 
-    if (req.body.location != null)
+    if (req.body.location != null) {
       event.location = req.body.location;
+      //var requestURL = GoogleGeocodingURL + event.location + '&key=' + GoogleAPIKey;
+      var options = {
+        host: 'maps.googleapis.com',
+        port: 443,
+        path: '/maps/api/geocode/json?address=' + encodeURIComponent(event.location) + '&key=' + GoogleAPIKey,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      console.log(options.path);
+      var request = https.request(options, function(response) {
+        console.log(res.statusCode);
+        var str = '';
+        response.on('data', function(d) {
+          str += d;
+        });
+        response.on('end', function() {
+          var parsed = JSON.parse(str);
+          //console.log(parsed);
+          //console.log(typeof parsed);
+          var thang = parsed.results[0].geometry.location;
+          //console.log(thang);
+          event.lat = thang.lat;
+          event.lon = thang.lon;
+          //console.log(thang.location);
+        })
+      });
+      request.end();
+
+      request.on('error', function(e) {
+        console.error(e);
+      });
+    }
 
     if (req.body.photo_url != null)
       event.photo_url = req.body.photo_url;
