@@ -8,11 +8,24 @@
 
 import UIKit
 
+protocol CollectionViewCellDelegate {
+    func cellButtonTapped(cell: CollectionViewCell)
+}
+
 class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var heartPopup: UIImageView!
+    @IBOutlet weak var likeButton: UIButton!
+    
+    var toggleState = 1
+    
+    var delegate: CollectionViewCellDelegate?
+    
+    @IBAction func likeClicked(sender: AnyObject) {
+        delegate?.cellButtonTapped(self)
+    }
     
     func showHeart(gesture: UIGestureRecognizer) {
 //        UIView.animateWithDuration(0.3, animations: {

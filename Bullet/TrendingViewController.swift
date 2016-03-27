@@ -8,11 +8,12 @@
 
 import UIKit
 
-class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, CollectionViewCellDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     var allEvents = []
+    var toggleState = 1
     
     override func viewDidLoad()
     {
@@ -103,11 +104,31 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
             }
         }
         
+        cell.delegate = self
+        
 //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(CollectionViewCell().showHeart(_:)))
 //        tapGesture.numberOfTapsRequired = 2
 //        cell.addGestureRecognizer(tapGesture)
         
         return cell
+    }
+    
+    func cellButtonTapped(cell: CollectionViewCell) {
+        let indexPath = self.collectionView.indexPathForCell(cell)
+        if cell.toggleState == 1 {
+            cell.toggleState = 2
+            
+//            let url = "http://ec2-54-164-108-53.compute-1.amazonaws.com:3000/api/events" + ((allEvents[(indexPath?.item)!] as? NSDictionary)!["_id"]) as? String
+            
+//            let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+//            request.HTTPMethod = "PUT"
+//            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            
+            cell.likeButton.setImage(UIImage(named: "Love"), forState: UIControlState.Normal)
+        } else {
+            cell.toggleState = 1
+            cell.likeButton.setImage(UIImage(named: "Heart"), forState: UIControlState.Normal)
+        }
     }
     
     func getDataFromUrl(url:NSURL, completion: ((data: NSData?, response: NSURLResponse?, error: NSError? ) -> Void)) {
@@ -138,6 +159,26 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     internal func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat
     {
         return 5
+    }
+    
+    @IBAction func sortByLikes(sender: AnyObject) {
+        if allEvents.count > 1 {
+            allEvents = allEvents.sort {
+                return (($0 as? NSDictionary)!["interested"]! as! Int) < (($1 as? NSDictionary)!["interested"]! as! Int)
+            }
+            
+            self.collectionView.reloadData()
+        }
+    }
+    
+    @IBAction func sortByTime(sender: AnyObject) {
+        if allEvents.count > 1 {
+            allEvents = allEvents.sort {
+                return (($0 as? NSDictionary)!["date"]! as! String) < (($1 as? NSDictionary)!["date"]! as! String)
+            }
+                        
+            self.collectionView.reloadData()
+        }
     }
 }
 
