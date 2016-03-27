@@ -37,11 +37,11 @@ router.route('/events')
     if (req.body.description != null)
       event.description = req.body.description;
 
-    if (req.body.start_date != null)
-      event.start_date = req.body.start_date;
+    if (req.body.date != null)
+      event.date = req.body.date;
 
-    if (req.body.end_date != null)
-      event.end_date = req.body.end_date;
+    if (req.body.category != null)
+      event.category = req.body.category;
 
     if (req.body.interested != null)
       event.interested = req.body.interested;
