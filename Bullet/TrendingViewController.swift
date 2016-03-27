@@ -119,15 +119,67 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
         if cell.toggleState == 1 {
             cell.toggleState = 2
             
-//            let url = "http://ec2-54-164-108-53.compute-1.amazonaws.com:3000/api/events" + ((allEvents[(indexPath?.item)!] as? NSDictionary)!["_id"]) as? String
+            let id = (allEvents[indexPath!.item] as? NSDictionary)!["_id"] as? String
+            let url = "http://ec2-54-164-108-53.compute-1.amazonaws.com:3000/api/events/" + id!
+
+            let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type") //Optional
+            request.HTTPMethod = "PUT"
             
-//            let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-//            request.HTTPMethod = "PUT"
-//            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            let numLikes = ((allEvents[indexPath!.item] as? NSDictionary)!["interested"] as! Int) + 1
+            let toAdd = "interested=" + String(numLikes)
+            
+            let session = NSURLSession(configuration:NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: nil)
+            
+            let data = toAdd.dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPBody = data
+            
+            let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+                
+                if error != nil {
+                    
+                    //handle error
+                }
+                else {
+                    print("Success")
+                } 
+            }
+            
+            task.resume()
             
             cell.likeButton.setImage(UIImage(named: "Love"), forState: UIControlState.Normal)
         } else {
             cell.toggleState = 1
+            
+            let id = (allEvents[indexPath!.item] as? NSDictionary)!["_id"] as? String
+            let url = "http://ec2-54-164-108-53.compute-1.amazonaws.com:3000/api/events/" + id!
+            
+            let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type") //Optional
+            request.HTTPMethod = "PUT"
+            
+            let numLikes = ((allEvents[indexPath!.item] as? NSDictionary)!["interested"] as! Int) - 1
+            let toAdd = "interested=" + String(numLikes)
+            
+            let session = NSURLSession(configuration:NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: nil)
+            
+            let data = toAdd.dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPBody = data
+            
+            let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+                
+                if error != nil {
+                    
+                    //handle error
+                }
+                else {
+                    print("Success")
+                }
+            }
+            
+            task.resume()
+
+            
             cell.likeButton.setImage(UIImage(named: "Heart"), forState: UIControlState.Normal)
         }
     }
@@ -165,7 +217,7 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     @IBAction func sortByLikes(sender: AnyObject) {
         if allEvents.count > 1 {
             allEvents = allEvents.sort {
-                return (($0 as? NSDictionary)!["interested"]! as! Int) < (($1 as? NSDictionary)!["interested"]! as! Int)
+                return (($0 as? NSDictionary)!["interested"]! as! Int) > (($1 as? NSDictionary)!["interested"]! as! Int)
             }
             
             self.collectionView.reloadData()
