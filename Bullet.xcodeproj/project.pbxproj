@@ -15,6 +15,8 @@
 		D5BA1D581CA729A100B222A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5BA1D571CA729A100B222A6 /* Main.storyboard */; };
 		D5BA1D5A1CA7466B00B222A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5BA1D591CA7466B00B222A6 /* Assets.xcassets */; };
 		D5BA1D5C1CA748D100B222A6 /* BulletTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BA1D5B1CA748D100B222A6 /* BulletTabBarController.swift */; };
+		D5BA1D601CA78C5800B222A6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5BA1D5F1CA78C5800B222A6 /* Default-568h@2x.png */; };
+		D5BA1D621CA7A07300B222A6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BA1D611CA7A07300B222A6 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		D5BA1D571CA729A100B222A6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D5BA1D591CA7466B00B222A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D5BA1D5B1CA748D100B222A6 /* BulletTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletTabBarController.swift; sourceTree = "<group>"; };
+		D5BA1D5F1CA78C5800B222A6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D5BA1D611CA7A07300B222A6 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +48,7 @@
 		D5BA1D311CA7297B00B222A6 = {
 			isa = PBXGroup;
 			children = (
+				D5BA1D5F1CA78C5800B222A6 /* Default-568h@2x.png */,
 				D5BA1D3C1CA7297B00B222A6 /* Bullet */,
 				D5BA1D3B1CA7297B00B222A6 /* Products */,
 			);
@@ -62,6 +67,7 @@
 			children = (
 				D5BA1D3D1CA7297B00B222A6 /* AppDelegate.swift */,
 				D5BA1D5B1CA748D100B222A6 /* BulletTabBarController.swift */,
+				D5BA1D611CA7A07300B222A6 /* CollectionViewCell.swift */,
 				D5BA1D511CA7298F00B222A6 /* MapViewController.swift */,
 				D5BA1D521CA7298F00B222A6 /* PostViewController.swift */,
 				D5BA1D531CA7298F00B222A6 /* TrendingViewController.swift */,
@@ -132,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5BA1D4A1CA7297B00B222A6 /* LaunchScreen.storyboard in Resources */,
+				D5BA1D601CA78C5800B222A6 /* Default-568h@2x.png in Resources */,
 				D5BA1D5A1CA7466B00B222A6 /* Assets.xcassets in Resources */,
 				D5BA1D581CA729A100B222A6 /* Main.storyboard in Resources */,
 			);
@@ -146,6 +153,7 @@
 			files = (
 				D5BA1D5C1CA748D100B222A6 /* BulletTabBarController.swift in Sources */,
 				D5BA1D3E1CA7297B00B222A6 /* AppDelegate.swift in Sources */,
+				D5BA1D621CA7A07300B222A6 /* CollectionViewCell.swift in Sources */,
 				D5BA1D541CA7298F00B222A6 /* MapViewController.swift in Sources */,
 				D5BA1D551CA7298F00B222A6 /* PostViewController.swift in Sources */,
 				D5BA1D561CA7298F00B222A6 /* TrendingViewController.swift in Sources */,
