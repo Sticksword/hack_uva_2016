@@ -12,6 +12,8 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var allEvents = []
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -21,10 +23,31 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        getData()
+
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getData() {
+        let urlPath: String = "http://ec2-54-164-108-53.compute-1.amazonaws.com:3000/api/events"
+        allEvents = getJSON(urlPath)
+        
+        self.collectionView.reloadData()
+    }
+    
+    func getJSON(urlToRequest: String) -> NSArray {
+        let data = NSData(contentsOfURL: NSURL(string: urlToRequest)!)        
+        let response = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions()) as! NSArray
+        
+        return response
     }
     
     func colorWithHexString (hex:String) -> UIColor {
@@ -53,16 +76,40 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     
     internal func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return 5
+        return allEvents.count
     }
     
     internal func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        var cell: UICollectionViewCell
-        cell = collectionView.dequeueReusableCellWithReuseIdentifier("bottomCells", forIndexPath:indexPath)
-        cell.backgroundColor = UIColor.redColor()
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("bottomCells", forIndexPath:indexPath) as! CollectionViewCell
+        
+        guard let event = allEvents[indexPath.item] as? NSDictionary,
+            let title = event["name"] as? String,
+            let url = event["photo_url"] as? String
+        else {
+            return cell
+        }
+        
+        if let label = cell.titleLabel {
+            label.text = title
+        }
+        
+        if let imageView = cell.imageView {
+            getDataFromUrl(NSURL(string: url)!) { (data, response, error)  in
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    guard let data = data where error == nil else { return }
+                    imageView.image = UIImage(data: data)
+                }
+            }
+        }
         
         return cell
+    }
+    
+    func getDataFromUrl(url:NSURL, completion: ((data: NSData?, response: NSURLResponse?, error: NSError? ) -> Void)) {
+        NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
+            completion(data: data, response: response, error: error)
+            }.resume()
     }
     
     internal func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets
@@ -73,7 +120,6 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
     internal func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
         if (indexPath.item == 0) {
-            print (self.view.frame.size.width)
             return CGSize(width: collectionView.frame.size.width - 20, height: 250)
         } else {
             return CGSize(width: (collectionView.frame.size.width - 25) / 2, height: (collectionView.frame.size.width - 25) / 2)

@@ -30,6 +30,7 @@ router.route('/events')
   .post(function(req, res) {
 
     var event = new Event();
+    console.log(req.body);
     if (req.body.name != null)
       event.name = req.body.name;
 
@@ -38,6 +39,9 @@ router.route('/events')
 
     if (req.body.date != null)
       event.date = req.body.date;
+
+    if (req.body.category != null)
+      event.category = req.body.category;
 
     if (req.body.interested != null)
       event.interested = req.body.interested;
@@ -59,10 +63,11 @@ router.route('/events')
 
 
     event.save(function(err) {
-      if (err)
+      if (err) {
         res.send(err);
-
-      res.json({ message: 'Event created!' });
+      } else {
+        res.json({message: 'Event created!'});
+      }
     });
 
   })
@@ -70,10 +75,11 @@ router.route('/events')
   // get all the events (accessed at GET http://localhost:3000/api/events)
   .get(function(req, res) {
     Event.find(function(err, events) {
-      if (err)
+      if (err) {
         res.send(err);
-
-      res.json(events);
+      } else {
+        res.json(events);
+      }
     });
   });
 
@@ -84,9 +90,11 @@ router.route('/events/:event_id')
   // get the bear with that id (accessed at GET http://localhost:3000/api/events/:event_id)
   .get(function(req, res) {
     Event.findById(req.params.event_id, function(err, event) {
-      if (err)
+      if (err) {
         res.send(err);
-      res.json(event);
+      } else {
+        res.json(event);
+      }
     });
   })
 
@@ -106,8 +114,11 @@ router.route('/events/:event_id')
       if (req.body.description != null)
         event.description = req.body.description;
 
-      if (req.body.date != null)
-        event.date = req.body.date;
+      if (req.body.start_date != null)
+        event.start_date = req.body.start_date;
+
+      if (req.body.end_date != null)
+        event.end_date = req.body.end_date;
 
       if (req.body.interested != null)
         event.interested = req.body.interested;
@@ -129,10 +140,11 @@ router.route('/events/:event_id')
 
       // save the event
       event.save(function(err) {
-        if (err)
+        if (err) {
           res.send(err);
-
-        res.json({ message: 'Event updated!' });
+        } else {
+          res.json({message: 'Event updated!'});
+        }
       });
 
     });
@@ -143,10 +155,11 @@ router.route('/events/:event_id')
     Event.remove({
       _id: req.params.event_id
     }, function(err, event) {
-      if (err)
+      if (err) {
         res.send(err);
-
-      res.json({ message: 'Successfully deleted' });
+      } else {
+        res.json({message: 'Successfully deleted'});
+      }
     });
   });
 
