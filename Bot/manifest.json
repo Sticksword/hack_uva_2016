@@ -3,20 +3,18 @@
 
 	"name": "Event_scrapper",
 	"description": "",
-	"version": "0.2",
+	"version": "0.31",
 	"content_scripts": [
 		{
-			"matches": ["http://*/*"],
+			"matches": ["*://*.facebook.com/events/*"],
 			"css": ["bootstrap.css", "bootstrap.min.css", 
 			"bootstrap-theme.css", "bootstrap-theme.min.css"],
-			"js": ["jquery.js"]
+			"js": ["jquery.js", "scrape.js"]
 		}
 	],
-	"browser_action": {
-		"default_icon": "icon.jpg",
-		"default_popup": "popup.html"
-	},
 	"permissions": [
-		"activeTab"
+		"activeTab",
+		"tabs",
+		"*://*.facebook.com/events/*"
 	]
 }
