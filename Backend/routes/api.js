@@ -36,8 +36,11 @@ router.route('/events')
     if (req.body.description != null)
       event.description = req.body.description;
 
-    if (req.body.date != null)
-      event.date = req.body.date;
+    if (req.body.start_date != null)
+      event.start_date = req.body.start_date;
+
+    if (req.body.end_date != null)
+      event.end_date = req.body.end_date;
 
     if (req.body.interested != null)
       event.interested = req.body.interested;
@@ -106,8 +109,11 @@ router.route('/events/:event_id')
       if (req.body.description != null)
         event.description = req.body.description;
 
-      if (req.body.date != null)
-        event.date = req.body.date;
+      if (req.body.start_date != null)
+        event.start_date = req.body.start_date;
+
+      if (req.body.end_date != null)
+        event.end_date = req.body.end_date;
 
       if (req.body.interested != null)
         event.interested = req.body.interested;
