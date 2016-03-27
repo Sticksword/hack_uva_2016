@@ -62,10 +62,11 @@ router.route('/events')
 
 
     event.save(function(err) {
-      if (err)
+      if (err) {
         res.send(err);
-
-      res.json({ message: 'Event created!' });
+      } else {
+        res.json({message: 'Event created!'});
+      }
     });
 
   })
@@ -73,10 +74,11 @@ router.route('/events')
   // get all the events (accessed at GET http://localhost:3000/api/events)
   .get(function(req, res) {
     Event.find(function(err, events) {
-      if (err)
+      if (err) {
         res.send(err);
-
-      res.json(events);
+      } else {
+        res.json(events);
+      }
     });
   });
 
@@ -87,9 +89,11 @@ router.route('/events/:event_id')
   // get the bear with that id (accessed at GET http://localhost:3000/api/events/:event_id)
   .get(function(req, res) {
     Event.findById(req.params.event_id, function(err, event) {
-      if (err)
+      if (err) {
         res.send(err);
-      res.json(event);
+      } else {
+        res.json(event);
+      }
     });
   })
 
@@ -135,10 +139,11 @@ router.route('/events/:event_id')
 
       // save the event
       event.save(function(err) {
-        if (err)
+        if (err) {
           res.send(err);
-
-        res.json({ message: 'Event updated!' });
+        } else {
+          res.json({message: 'Event updated!'});
+        }
       });
 
     });
@@ -149,10 +154,11 @@ router.route('/events/:event_id')
     Event.remove({
       _id: req.params.event_id
     }, function(err, event) {
-      if (err)
+      if (err) {
         res.send(err);
-
-      res.json({ message: 'Successfully deleted' });
+      } else {
+        res.json({message: 'Successfully deleted'});
+      }
     });
   });
 
