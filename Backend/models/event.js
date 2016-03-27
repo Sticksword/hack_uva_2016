@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var EventSchema = new Schema({
   name: {type: String, default: "generic event name" },
   description: {type: String, default: "generic event description" },
-  date: {type: Date, default: Date.now },
+  time: {type: String, default: "3-27-2016 at Noon" },
   category: {type: String, default: null },
   host: {type: String, default: null },
   interested: {type: Number, default: 0 },
