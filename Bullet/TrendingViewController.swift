@@ -22,6 +22,9 @@ class TrendingViewController: UIViewController, UICollectionViewDelegateFlowLayo
         
         self.navigationController?.navigationBar.barTintColor = colorWithHexString("ebebeb")
         collectionView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
